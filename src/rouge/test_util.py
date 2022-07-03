@@ -37,5 +37,5 @@ PYROUGE_DIR = os.path.join(_TESTDATA_PREFIX, "pyrouge_files")
 
 
 def get_text(fname):
-  with open(fname) as f:
-    return f.read()
+    with open(fname) as f:
+        return f.read()

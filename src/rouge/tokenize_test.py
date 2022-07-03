@@ -24,13 +24,14 @@ from rouge import tokenize
 
 
 class TokenizeTest(absltest.TestCase):
+    def test_give_me_a_name(self):
+        self.assertEqual(
+            ["one", "two", "three"], tokenize.tokenize("one Two three", None)
+        )
+        self.assertEqual(
+            ["one", "two", "three"], tokenize.tokenize("one\n Two \nthree", None)
+        )
 
-  def test_give_me_a_name(self):
-    self.assertEqual(['one', 'two', 'three'],
-                     tokenize.tokenize('one Two three', None))
-    self.assertEqual(['one', 'two', 'three'],
-                     tokenize.tokenize('one\n Two \nthree', None))
 
-
-if __name__ == '__main__':
-  absltest.main()
+if __name__ == "__main__":
+    absltest.main()
