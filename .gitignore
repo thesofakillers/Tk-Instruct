@@ -2,6 +2,7 @@
 data/
 beaker_configs/ni_*.yaml
 backup/
+lisa/outputs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
