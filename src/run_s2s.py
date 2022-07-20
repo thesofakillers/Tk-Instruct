@@ -589,7 +589,7 @@ def main():
         )
         metrics["train_samples"] = min(max_train_samples, len(train_dataset))
 
-        trainer.log_metrics("train", metrics)
+        # trainer.log_metrics("train", metrics)
         trainer.save_metrics("train", metrics)
         trainer.save_state()
 
@@ -620,7 +620,7 @@ def main():
         )
         metrics["eval_samples"] = min(max_eval_samples, len(eval_dataset))
 
-        trainer.log_metrics("eval", metrics)
+        # trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
 
         all_metrics.update(metrics)
@@ -642,8 +642,8 @@ def main():
         )
         metrics["predict_samples"] = min(max_predict_samples, len(predict_dataset))
 
-        trainer.log(metrics)
-        trainer.log_metrics("predict", metrics)
+        # trainer.log(metrics)
+        # trainer.log_metrics("predict", metrics)
         trainer.save_metrics("predict", metrics)
 
         all_metrics.update(metrics)
