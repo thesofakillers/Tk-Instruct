@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu_titanrtx_shared_course
+#SBATCH --gres=gpu:1
+#SBATCH --job-name=TKEVAL
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=3
+#SBATCH --time=04:00:00
+#SBATCH --mem=32000M
+#SBATCH --output=lisa/outputs/tk_eval_%A.out
+
+module purge
+module load 2021
+module load Anaconda3/2021.05
+
+source activate tk-instruct
+
+export CUDA_DEVICE_ORDER="PCI_BUS_ID"
+export TRANSFORMERS_CACHE=/home/lcur1211/.cache/huggingface
+
+cd ~/repos/tk-instruct
+
+srun python -u src/run_s2s.py \
+    --do_predict \
+    --predict_with_generate \
+    --evaluation_strategy "no" \
+    --model_name_or_path allenai/tk-instruct-3b-def-pos \
+    --max_source_length 1024 \
+    --max_target_length 128 \
+    --generation_max_length 128 \
+    --max_num_instances_per_task 100 \
+    --max_num_instances_per_eval_task 100 \
+    --add_task_name False \
+    --add_task_definition True \
+    --num_pos_examples 2 \
+    --num_neg_examples 0 \
+    --add_explanation False \
+    --tk_instruct False \
+    --data_dir data/splits/default \
+    --task_dir data/tasks \
+    --output_dir output/ \
+    --overwrite_output_dir \
+    --cache_dir ./cache/ \
+    --overwrite_cache \
+    --per_device_eval_batch_size 4
