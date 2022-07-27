@@ -3,26 +3,34 @@
 # Array job to evaluate mono and multilingual tk-instruct on mono and
 # multilingual tasks
 
-#SBATCH --partition=gpu
+#SBATCH --partition=defq
 #SBATCH --gres=gpu:1
 #SBATCH --job-name=TKEVAL
 #SBATCH --ntasks=1
+#SBATCH -C A6000
 #SBATCH --cpus-per-task=3
-#SBATCH --time=06:00:00
-#SBATCH --mem=32000M
-#SBATCH --array=1-4%2
-#SBATCH --output=lisa/outputs/%x_%A_%a.out
+#SBATCH --time=04:00:00
+#SBATCH --array=1-4%1
+#SBATCH --output=slurm/outputs/%x_%A_%a.out
 
 source ~/.bashrc
+
+module load cuda11.2/toolkit
+
+bash ~/repos/tk-instruct/slurm/scratch_check.sh
+
+scratch_dir=/var/scratch/$USER/repos/tk-instruct
 
 conda activate tk-instruct
 
 export CUDA_DEVICE_ORDER="PCI_BUS_ID"
-export TRANSFORMERS_CACHE=$HOME/.cache/huggingface
+export TRANSFORMERS_CACHE="$scratch_dir/cache/huggingface"
 
 cd ~/repos/tk-instruct
 
-ARGS_FILE=~/repos/tk-instruct/lisa/args_eval.txt
+ARGS_FILE=~/repos/tk-instruct/slurm/args_eval.txt
+SLURM_ARRAY_TASK_ID=1
+ARG_FILE_PARSE=$(head -$SLURM_ARRAY_TASK_ID $ARGS_FILE | tail -1)
 
 srun python -u src/run_s2s.py \
     --do_predict \
@@ -39,9 +47,9 @@ srun python -u src/run_s2s.py \
     --num_neg_examples 0 \
     --add_explanation False \
     --tk_instruct False \
-    --task_dir data/tasks \
+    --task_dir "$scratch_dir/data/tasks" \
     --overwrite_output_dir \
-    --cache_dir ./cache/ \
+    --cache_dir $scratch_dir/cache/ \
     --overwrite_cache \
-    --per_device_eval_batch_size 1 \
-    $(head -$SLURM_ARRAY_TASK_ID $ARGS_FILE | tail -1)
+    --per_device_eval_batch_size 4 \
+    --data_dir $scratch_dir/$ARG_FILE_PARSE

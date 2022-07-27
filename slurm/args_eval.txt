@@ -1,4 +1,4 @@
---model_name_or_path allenai/tk-instruct-3b-def-pos --output_dir output/default/tk-instruct-3b-def-pos --data_dir data/splits/default
---model_name_or_path allenai/tk-instruct-3b-def-pos --output_dir output/xlingual/tk-instruct-3b-def-pos --data_dir data/splits/xlingual
---model_name_or_path allenai/mtk-instruct-3b-def-pos --output_dir output/default/mtk-instruct-3b-def-pos --data_dir data/splits/default
---model_name_or_path allenai/mtk-instruct-3b-def-pos --output_dir output/xlingual/mtk-instruct-3b-def-pos --data_dir data/splits/xlingual
+data/splits/default --model_name_or_path allenai/mtk-instruct-3b-def-pos --output_dir output/default/mtk-instruct-3b-def-pos
+data/splits/xlingual --model_name_or_path allenai/mtk-instruct-3b-def-pos --output_dir output/xlingual/mtk-instruct-3b-def-pos
+data/splits/default --model_name_or_path allenai/tk-instruct-3b-def-pos --output_dir output/default/tk-instruct-3b-def-pos
+data/splits/xlingual --model_name_or_path allenai/tk-instruct-3b-def-pos --output_dir output/xlingual/tk-instruct-3b-def-pos
