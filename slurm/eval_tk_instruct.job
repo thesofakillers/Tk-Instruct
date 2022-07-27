@@ -29,7 +29,6 @@ export TRANSFORMERS_CACHE="$scratch_dir/cache/huggingface"
 cd ~/repos/tk-instruct
 
 ARGS_FILE=~/repos/tk-instruct/slurm/args_eval.txt
-SLURM_ARRAY_TASK_ID=1
 ARG_FILE_PARSE=$(head -$SLURM_ARRAY_TASK_ID $ARGS_FILE | tail -1)
 
 srun python -u src/run_s2s.py \
